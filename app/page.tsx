@@ -103,35 +103,13 @@ const glowAnimation = {
   },
 }
 
-// Enhanced floating particles with space objects
-const SpaceBackground = () => {
+// Floating particles component
+const FloatingParticles = () => {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {/* Stars */}
-      {[...Array(50)].map((_, i) => (
-        <motion.div
-          key={`star-${i}`}
-          className="absolute w-1 h-1 bg-white rounded-full"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-          animate={{
-            opacity: [0.2, 1, 0.2],
-            scale: [0.5, 1.5, 0.5],
-          }}
-          transition={{
-            duration: Math.random() * 3 + 2,
-            repeat: Number.POSITIVE_INFINITY,
-            delay: Math.random() * 5,
-          }}
-        />
-      ))}
-
-      {/* Floating particles */}
       {[...Array(20)].map((_, i) => (
         <motion.div
-          key={`particle-${i}`}
+          key={i}
           className="absolute w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-20"
           style={{
             left: `${Math.random() * 100}%`,
@@ -148,345 +126,6 @@ const SpaceBackground = () => {
             delay: Math.random() * 5,
           }}
         />
-      ))}
-    </div>
-  )
-}
-
-// Planet component
-const Planet = ({ delay = 0, size = "large", color = "blue" }) => {
-  const colors = {
-    blue: "from-blue-400 via-blue-500 to-blue-600",
-    purple: "from-purple-400 via-purple-500 to-purple-600",
-    green: "from-green-400 via-emerald-500 to-green-600",
-    orange: "from-orange-400 via-red-500 to-pink-600",
-    cyan: "from-cyan-400 via-teal-500 to-blue-600",
-  }
-
-  const sizes = {
-    small: "w-16 h-16",
-    medium: "w-24 h-24",
-    large: "w-32 h-32",
-    xlarge: "w-40 h-40",
-  }
-
-  return (
-    <motion.div
-      className="absolute opacity-30"
-      initial={{ x: "-200px", y: Math.random() * window.innerHeight }}
-      animate={{
-        x: window.innerWidth + 200,
-        y: Math.random() * window.innerHeight,
-        rotate: 360,
-      }}
-      transition={{
-        duration: Math.random() * 30 + 40,
-        repeat: Number.POSITIVE_INFINITY,
-        delay: delay,
-        ease: "linear",
-      }}
-    >
-      <div className={`${sizes[size]} relative`}>
-        {/* Planet body */}
-        <motion.div
-          className={`w-full h-full rounded-full bg-gradient-to-br ${colors[color]} shadow-2xl relative overflow-hidden`}
-          animate={{
-            boxShadow: [
-              "0 0 30px rgba(59, 130, 246, 0.3)",
-              "0 0 50px rgba(147, 51, 234, 0.4)",
-              "0 0 40px rgba(6, 182, 212, 0.3)",
-              "0 0 30px rgba(59, 130, 246, 0.3)",
-            ],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
-          }}
-        >
-          {/* Planet surface details */}
-          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/20 via-transparent to-black/30" />
-          <div className="absolute top-2 left-3 w-3 h-3 rounded-full bg-white/30" />
-          <div className="absolute bottom-4 right-2 w-2 h-2 rounded-full bg-white/20" />
-          <div className="absolute top-1/2 left-1 w-4 h-1 rounded-full bg-black/20" />
-
-          {/* Atmosphere glow */}
-          <div className="absolute -inset-2 rounded-full bg-gradient-to-br from-white/10 to-transparent blur-sm" />
-        </motion.div>
-
-        {/* Planet rings (for some planets) */}
-        {Math.random() > 0.6 && (
-          <motion.div
-            className="absolute inset-0 flex items-center justify-center"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-          >
-            <div className="w-full h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent rounded-full transform rotate-12" />
-            <div className="absolute w-full h-0.5 bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-full transform -rotate-12" />
-          </motion.div>
-        )}
-      </div>
-    </motion.div>
-  )
-}
-
-// Asteroid component
-const Asteroid = ({ delay = 0, size = "medium" }) => {
-  const sizes = {
-    small: "w-6 h-6",
-    medium: "w-10 h-10",
-    large: "w-14 h-14",
-  }
-
-  return (
-    <motion.div
-      className="absolute opacity-40"
-      initial={{
-        x: Math.random() > 0.5 ? "-100px" : window.innerWidth + 100,
-        y: Math.random() * window.innerHeight,
-      }}
-      animate={{
-        x: Math.random() > 0.5 ? window.innerWidth + 100 : "-100px",
-        y: Math.random() * window.innerHeight,
-        rotate: Math.random() * 720,
-      }}
-      transition={{
-        duration: Math.random() * 20 + 15,
-        repeat: Number.POSITIVE_INFINITY,
-        delay: delay,
-        ease: "linear",
-      }}
-    >
-      <div className={`${sizes[size]} relative`}>
-        {/* Asteroid body */}
-        <motion.div
-          className="w-full h-full bg-gradient-to-br from-gray-400 via-gray-500 to-gray-600 shadow-lg relative overflow-hidden"
-          style={{
-            clipPath: "polygon(20% 0%, 80% 10%, 100% 35%, 85% 70%, 60% 100%, 25% 85%, 0% 50%, 15% 20%)",
-          }}
-          animate={{
-            boxShadow: [
-              "0 0 10px rgba(156, 163, 175, 0.3)",
-              "0 0 20px rgba(156, 163, 175, 0.5)",
-              "0 0 15px rgba(156, 163, 175, 0.4)",
-            ],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
-          }}
-        >
-          {/* Asteroid surface details */}
-          <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/40" />
-          <div className="absolute top-1 left-1 w-1 h-1 rounded-full bg-white/40" />
-          <div className="absolute bottom-1 right-1 w-0.5 h-0.5 rounded-full bg-white/30" />
-        </motion.div>
-
-        {/* Asteroid trail */}
-        <motion.div
-          className="absolute right-full top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-gradient-to-r from-gray-400/40 to-transparent rounded-full blur-sm"
-          animate={{
-            width: [20, 35, 15],
-            opacity: [0.2, 0.6, 0.1],
-          }}
-          transition={{
-            duration: 1.5,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
-          }}
-        />
-      </div>
-    </motion.div>
-  )
-}
-
-// Meteor component
-const Meteor = ({ delay = 0 }) => {
-  return (
-    <motion.div
-      className="absolute opacity-60"
-      initial={{
-        x: Math.random() * window.innerWidth,
-        y: -50,
-      }}
-      animate={{
-        x: Math.random() * window.innerWidth,
-        y: window.innerHeight + 50,
-      }}
-      transition={{
-        duration: Math.random() * 3 + 2,
-        repeat: Number.POSITIVE_INFINITY,
-        delay: delay,
-        ease: "easeIn",
-      }}
-    >
-      <div className="relative">
-        {/* Meteor head */}
-        <motion.div
-          className="w-3 h-3 rounded-full bg-gradient-to-br from-yellow-300 via-orange-400 to-red-500 shadow-lg"
-          animate={{
-            boxShadow: [
-              "0 0 10px rgba(251, 191, 36, 0.6)",
-              "0 0 20px rgba(251, 191, 36, 0.8)",
-              "0 0 15px rgba(251, 191, 36, 0.7)",
-            ],
-          }}
-          transition={{
-            duration: 0.5,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
-          }}
-        />
-
-        {/* Meteor glow */}
-        <motion.div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-gradient-to-br from-yellow-300/30 via-orange-400/20 to-transparent blur-sm"
-          animate={{
-            scale: [1, 1.5, 1.2],
-            opacity: [0.3, 0.7, 0.5],
-          }}
-          transition={{
-            duration: 0.4,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
-          }}
-        />
-
-        {/* Sparkles */}
-        {[...Array(3)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-0.5 h-0.5 bg-yellow-200 rounded-full"
-            style={{
-              left: `${Math.random() * 20 - 10}px`,
-              top: `${Math.random() * 20 - 10}px`,
-            }}
-            animate={{
-              opacity: [0, 1, 0],
-              scale: [0, 1.5, 0],
-            }}
-            transition={{
-              duration: 0.8,
-              repeat: Number.POSITIVE_INFINITY,
-              delay: i * 0.2,
-              ease: "easeOut",
-            }}
-          />
-        ))}
-      </div>
-    </motion.div>
-  )
-}
-
-// Falling Star component
-const FallingStar = ({ delay = 0 }) => {
-  return (
-    <motion.div
-      className="absolute opacity-80"
-      initial={{
-        x: Math.random() * window.innerWidth * 0.3,
-        y: -50,
-      }}
-      animate={{
-        x: Math.random() * window.innerWidth * 0.7 + window.innerWidth * 0.3,
-        y: window.innerHeight + 50,
-      }}
-      transition={{
-        duration: Math.random() * 2 + 1.5,
-        repeat: Number.POSITIVE_INFINITY,
-        delay: delay,
-        ease: "easeIn",
-        repeatDelay: Math.random() * 20 + 10,
-      }}
-    >
-      <div className="relative">
-        {/* Star head */}
-        <motion.div
-          className="w-2 h-2 rounded-full bg-gradient-to-br from-white via-blue-200 to-cyan-300 shadow-lg"
-          animate={{
-            boxShadow: [
-              "0 0 8px rgba(255, 255, 255, 0.8)",
-              "0 0 16px rgba(255, 255, 255, 1)",
-              "0 0 12px rgba(255, 255, 255, 0.9)",
-            ],
-          }}
-          transition={{
-            duration: 0.3,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
-          }}
-        />
-
-        {/* Star glow */}
-        <motion.div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-gradient-to-br from-white/40 via-blue-200/30 to-transparent blur-sm"
-          animate={{
-            scale: [1, 1.8, 1.3],
-            opacity: [0.4, 0.8, 0.6],
-          }}
-          transition={{
-            duration: 0.3,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
-          }}
-        />
-
-        {/* Sparkle trail */}
-        {[...Array(4)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-0.5 h-0.5 bg-white rounded-full"
-            style={{
-              left: `${Math.random() * 15 - 7}px`,
-              top: `${Math.random() * 15 - 7}px`,
-            }}
-            animate={{
-              opacity: [0, 1, 0],
-              scale: [0, 1, 0],
-              x: [0, (Math.random() - 0.5) * 10],
-              y: [0, (Math.random() - 0.5) * 10],
-            }}
-            transition={{
-              duration: 0.6,
-              repeat: Number.POSITIVE_INFINITY,
-              delay: i * 0.1,
-              ease: "easeOut",
-            }}
-          />
-        ))}
-      </div>
-    </motion.div>
-  )
-}
-
-// Space objects manager
-const SpaceObjects = () => {
-  return (
-    <div className="fixed inset-0 pointer-events-none z-0">
-      {/* Planets - реже */}
-      {[...Array(2)].map((_, i) => (
-        <Planet
-          key={`planet-${i}`}
-          delay={i * 25}
-          size={["medium", "large", "xlarge"][Math.floor(Math.random() * 3)]}
-          color={["blue", "purple", "green", "orange", "cyan"][Math.floor(Math.random() * 5)]}
-        />
-      ))}
-
-      {/* Asteroids - реже */}
-      {[...Array(3)].map((_, i) => (
-        <Asteroid key={`asteroid-${i}`} delay={i * 12} size={["small", "medium"][Math.floor(Math.random() * 2)]} />
-      ))}
-
-      {/* Meteors - реже */}
-      {[...Array(2)].map((_, i) => (
-        <Meteor key={`meteor-${i}`} delay={i * 15} />
-      ))}
-
-      {/* Falling Stars - редко */}
-      {[...Array(3)].map((_, i) => (
-        <FallingStar key={`falling-star-${i}`} delay={i * 8} />
       ))}
     </div>
   )
@@ -568,7 +207,7 @@ const FlyingRocket = () => {
 
   return (
     <motion.div
-      className="fixed z-40 pointer-events-none"
+      className="fixed z-50 pointer-events-none"
       style={{
         x: rocketX,
         y: rocketY,
@@ -762,7 +401,6 @@ export default function SecurexVPNLanding() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 via-purple-900 to-slate-900 text-white overflow-hidden">
       <FlyingRocket />
-      <SpaceObjects />
 
       {/* Enhanced Animated Background */}
       <div className="fixed inset-0 opacity-40">
@@ -778,7 +416,7 @@ export default function SecurexVPNLanding() {
           }}
           transition={{ duration: 12, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
         />
-        <SpaceBackground />
+        <FloatingParticles />
       </div>
 
       {/* Hero Section */}
